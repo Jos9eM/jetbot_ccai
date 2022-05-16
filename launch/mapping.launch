@@ -3,11 +3,11 @@
 
   <node name="keyboardJetbot" 
 	pkg="jetbot_ccai"  
-	type="jetbot_teleop_keys" 
+	type="jetbot_teleop_keys.py" 
 	output="screen"></node>
 
   <node name="oledJetbot" 
-	pkg="jetbot_ros"  
+	pkg="jetbot_ccai"  
 	type="jetbot_oled.py" 
 	output="screen"></node>
 </launch>
