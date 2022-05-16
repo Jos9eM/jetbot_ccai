@@ -1,0 +1,13 @@
+<launch>
+  <include file = "$(find rplidar_ros)/launch/rplidar.launch" />
+
+  <node name="keyboardJetbot" 
+	pkg="jetbot_ccai"  
+	type="jetbot_teleop_keys" 
+	output="screen"></node>
+
+  <node name="oledJetbot" 
+	pkg="jetbot_ros"  
+	type="jetbot_oled.py" 
+	output="screen"></node>
+</launch>
