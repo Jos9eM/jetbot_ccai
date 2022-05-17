@@ -1,13 +1,55 @@
+<?xml version="1.0"?>
 <launch>
   <include file = "$(find rplidar_ros)/launch/rplidar.launch" />
+
+  <rosparam 
+	file="$(find jetbot_ccai)/config/controllers.yaml" 
+	command="load"/>
+  <rosparam 
+	file="$(find jetbot_ccai)/config/joint_limits.yaml" 
+	command="load"/>
+
+  <arg  name="model" 
+	default="$(find jetbot_ccai)/urdf/mobile_robot.urdf.xacro"/>
+  
+  <param name="robot_description" 
+	command="$(find xacro)/xacro $(arg model)" />
+
+  <node name="robot_state_publisher" 
+	pkg="robot_state_publisher" 
+	type="robot_state_publisher" >
+  </node>
+
+  <node name="controller_spawner" 
+	pkg="controller_manager" 
+	type="spawner" 
+	respawn="false" 
+	output="screen"
+        args="
+            /mobile_robot/joints_update
+            /mobile_robot/mobile_base_controller" >
+  </node>
+
+  <node name="rviz" 
+	pkg="rviz" 
+	type="rviz" 
+	args="-d $(find jetbot_ccai)/config/mapping_config.rviz"/>
 
   <node name="keyboardJetbot" 
 	pkg="jetbot_ccai"  
 	type="jetbot_teleop_keys.py" 
-	output="screen"></node>
+	output="screen"/>
 
   <node name="oledJetbot" 
 	pkg="jetbot_ccai"  
 	type="jetbot_oled.py" 
-	output="screen"></node>
+	output="screen"/>
+
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+	<param name="map_update_interval" value="5.0"/>
+	<param name="maxUrange" value="6.0"/>
+	<param name="maxRange" value="8.0"/>
+	<param name="linearUpdate" value="0.05"/>
+	<param name="angularUpdate" value="0.5"/>	
+  </node>
 </launch>
