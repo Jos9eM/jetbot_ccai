@@ -44,14 +44,14 @@
 
     <link name="base_plate">
     <visual>
-      <origin rpy="1.57079632679 0.0 1.57079632679" xyz="0.0 0.0 0.043"/>
+      <origin rpy="1.57079632679 0.0 -91.10079632679" xyz="0.0 0.0 0.015"/>
       <geometry>
         <mesh filename="package://jetbot_ccai/stl/JetBot-Chassis.stl" scale="0.001 0.001 0.001"/> 
       </geometry>
-      <material name="white"/>
+      <material name="green"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0.03 0 -0.026"  />
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.015"  />
       <geometry>
         <mesh filename="package://jetbot_ccai/stl/JetBot-Chassis.stl" scale="0.001 0.001 0.001" />
       </geometry>
@@ -68,16 +68,16 @@
 
     <link name="right_wheel">
     <visual>
-      <origin rpy="0 0 0" xyz="0.11 0.059 -0.04"/>
+      <origin rpy="0 0 0" xyz="0.127 0.09174 -0.0127"/>
       <geometry>
-        <mesh filename="package://jetbot_ccai/stl/Wheel.stl" scale="0.001 0.001 0.001"/> 
+        <mesh filename="package://jetbot_ccai/stl/JetBot-Wheel.stl" scale="0.001 0.001 0.001"/> 
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0.11 0.059 -0.04"/>
+      <origin rpy="0 0 0" xyz="0.127 0.09174 -0.0127"/>
       <geometry>
-        <mesh filename="package://jetbot_ccai/stl/Wheel.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://jetbot_ccai/stl/JetBot-Wheel.stl" scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
     </link>   
@@ -91,16 +91,16 @@
 
     <link name="left_wheel">
     <visual>
-      <origin rpy="0 0 0" xyz="0.133 0.059 -0.04"/>
+      <origin rpy="0 0 0" xyz="-0.1355 0.09174 -0.0127"/>
       <geometry>
-        <mesh filename="package://jetbot_ccai/stl/Wheel.stl" scale="0.001 0.001 0.001"/> 
+        <mesh filename="package://jetbot_ccai/stl/JetBot-Wheel.stl" scale="0.001 0.001 0.001"/> 
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0.133 0.059 -0.04"/>
+      <origin rpy="0 0 0" xyz="-0.1355 0.09174 -0.0127"/>
       <geometry>
-        <mesh filename="package://jetbot_ccai/stl/Wheel.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://jetbot_ccai/stl/JetBot-Wheel.stl" scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
     </link>   
@@ -113,7 +113,7 @@
 
     <link name="laser">
     <visual>
-      <origin rpy="0 0 -1.5708" xyz="0.084 -0.242 -0.098"/>
+      <origin rpy="0 0 -1.5708" xyz="0.03 -0.248 -0.09"/>
       <geometry>
         <mesh filename="package://jetbot_ccai/stl/RpLidar.stl" scale="0.001 0.001 0.001"/> 
       </geometry>
