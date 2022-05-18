@@ -14,10 +14,6 @@
 
   <!-- Caster Ball constants -->
 
-  <!-- Inertia Macro -->
-  <xacro:include filename="$(find jetbot_ccai)/urdf/includes/gazebo/inertias.xacro" />  
-  <!-- Inertia Macro -->
-
   <!-- Caster Wheel Left and Right Mini Cylinder Macros -->
   <xacro:macro name="caster_minicyl" params="prefix suffix reflect">
   <link name="${prefix}_caster_${suffix}_cyl">
@@ -32,7 +28,6 @@
         <cylinder length="${caster_cyl_len}" radius="${caster_cyl_r/3.75}"/>
       </geometry>
     </collision>
-    <xacro:cylinder_inertia mass="${caster_minicyl_mass}" r="${caster_cyl_r/3.75}" h="${caster_cyl_len}" />    
   </link>
   <joint name="${prefix}_caster_${suffix}_cyl_joint" type="fixed">
     <origin xyz="0 ${reflect*caster_yoffset} 0"/>  
@@ -56,7 +51,6 @@
         <cylinder length="${caster_cyl_len}" radius="${caster_cyl_r}"/>
       </geometry>
     </collision>
-    <xacro:cylinder_inertia mass="${caster_cyl_mass}" r="${caster_cyl_r}" h="${caster_cyl_len}" />    
   </link>
   <joint name="base_${prefix}_caster_joint" type="fixed">
     <origin xyz="${reflect*caster_xoffset} 0 ${caster_zoffset}"/>  
@@ -79,7 +73,6 @@
         <sphere radius="${caster_ball}" />
       </geometry>
     </collision>    
-    <xacro:sphere_inertia mass="${caster_ball_mass}" r="${caster_ball}" />    
   </link>  
   <joint name="${prefix}_caster_joint" type="fixed">
   <!--joint name="${prefix}_caster_joint" type="continuous">  

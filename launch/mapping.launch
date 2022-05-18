@@ -10,7 +10,7 @@
 		command="load"/>
 
   <arg  name="model" 
-		default="$(find jetbot_ccai)/urdf/mobile_robot.urdf.xacro"/>	
+		default="$(find jetbot_ccai)/urdf/jetbot.urdf.xacro"/>	
   
   <param name="robot_description" 
 		command="$(find xacro)/xacro $(arg model)" />
@@ -44,10 +44,6 @@
 		pkg="jetbot_ccai"  
 		type="jetbot_oled.py" 
 		output="screen"/>
-
-	<node name="robot_hardware_interface" pkg="mobile_robot_autonomous_navigation" type="mobile_robot_hardware_interface" output="screen">
-    <remap from="/mobile_robot/mobile_base_controller/cmd_vel" to="/cmd_vel"/>
-  </node>
 
 	<include file="$(find jetbot_ccai)/launch/include/gmapping.launch"/>
  

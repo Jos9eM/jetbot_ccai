@@ -1,10 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<!-- Inertias Macros -->
-<xacro:include filename="$(find jetbot_ccai)/urdf/includes/gazebo/inertias.xacro" />  
-<!-- Inertias Macros -->  
-
 <xacro:property name="camera_mount_base_mass" value="0.01" />
 <xacro:property name="camera_mount_over_mass" value="0.005" />
 <xacro:property name="camera_mount_angled_mass" value="0.0034" />
@@ -32,7 +28,6 @@
         <box size="0.01 0.04 0.002"/>
       </geometry>
     </collision>
-    <xacro:cuboid_inertia mass="${camera_mount_base_mass}" x="0.01" y="0.04" z="0.002" />        
   </link>
   <joint name="camera_mount_base_joint" type="fixed">
     <parent link="base_link"/>
@@ -54,7 +49,6 @@
         <box size="0.03 0.04 0.002"/>
       </geometry>
     </collision>    
-    <xacro:cuboid_inertia mass="${camera_mount_over_mass}" x="0.03" y="0.04" z="0.002"/>        
   </link>
   <joint name="camera_mount_over_joint" type="fixed">
     <parent link="camera_mount_base"/>
@@ -76,7 +70,6 @@
         <box size="0.025 0.025 0.002"/>
       </geometry>
     </collision>    
-    <xacro:cuboid_inertia mass="${camera_mount_angled_mass}" x="0.025" y="0.025" z="0.002" />        
   </link>
   <joint name="camera_mount_angled_joint" type="fixed">
     <parent link="camera_mount_over"/>
@@ -98,7 +91,6 @@
         <box size="0.025 0.025 0.004"/>
       </geometry>
     </collision>
-    <xacro:cuboid_inertia mass="${camera_screen_base_mass}" x="0.025" y="0.025" z="0.004" />
   </link>
   <joint name="camera_mount_screen_joint" type="fixed">
     <parent link="camera_mount_angled"/>
@@ -120,7 +112,6 @@
         <box size="0.013 0.013 0.004"/>
       </geometry>
     </collision>    
-    <xacro:cuboid_inertia mass="${camera_pcb_base_mass}" x="0.013" y="0.013" z="0.004" />        
   </link>
   <joint name="camera_pcb_base_joint" type="fixed">
     <parent link="camera_screen_base"/>
@@ -142,7 +133,6 @@
         <cylinder length="0.01" radius="0.006"/>
       </geometry>
     </collision>    
-    <xacro:cylinder_inertia mass="${camera_lens_body_mass}" r="0.006" h="0.01" />        
   </link>
   <joint name="camera_lens_body_joint" type="fixed">
     <parent link="camera_pcb_base"/>
@@ -164,7 +154,6 @@
         <cylinder length="0.003" radius="0.0075"/>
       </geometry>
     </collision>    
-    <xacro:cylinder_inertia mass="${camera_lens_body_out_mass}" r="0.0075" h="0.003"/>        
   </link>
  <joint name="camera_lens_body_out_joint" type="fixed">
     <parent link="camera_lens_body"/>
@@ -186,7 +175,6 @@
         <sphere radius="0.005" />
       </geometry>
     </collision>    
-    <xacro:sphere_inertia mass="${camera_lens_mass}" r="0.005" />        
   </link>
  <joint name="camera_lens_joint" type="fixed">
     <parent link="camera_lens_body_out"/>
