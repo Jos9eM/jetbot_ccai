@@ -1,50 +1,27 @@
 <?xml version="1.0"?>
 <launch>
-  <include file = "$(find rplidar_ros)/launch/rplidar.launch" />
+	<include file="$(find jetbot_ccai)/launch/include/gmapping.launch"/>
+	<include file="$(find rplidar_ros)/launch/rplidar.launch" />
 
-  <rosparam 
-		file="$(find jetbot_ccai)/config/controllers.yaml" 
-		command="load"/>
-  <rosparam 
-		file="$(find jetbot_ccai)/config/joint_limits.yaml" 
-		command="load"/>
+	<rosparam file="$(find jetbot_ccai)/config/controllers.yaml" command="load"/>
+	<rosparam file="$(find jetbot_ccai)/config/joint_limits.yaml" command="load"/>
 
-  <arg  name="model" 
-		default="$(find jetbot_ccai)/urdf/jetbot.urdf.xacro"/>	
-  
-  <param name="robot_description" 
-		command="$(find xacro)/xacro $(arg model)" />
+	<arg name="model" default="$(find jetbot_ccai)/urdf/jetbot.urdf.xacro"/>
 
-  <node name="robot_state_publisher" 
-		pkg="robot_state_publisher" 
-		type="robot_state_publisher" >
-  </node>
+	<param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
-  <node name="controller_spawner" 
-		pkg="controller_manager" 
-		type="spawner" 
-		respawn="false" 
-		output="screen"
-					args="
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+	</node>
+
+	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
 							/mobile_robot/joints_update
 							/mobile_robot/mobile_base_controller">
-  </node>
+	</node>
 
-  <node name="rviz" 
-		pkg="rviz" 
-		type="rviz" 
-		args="-d $(find jetbot_ccai)/config/mapping_config.rviz"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find jetbot_ccai)/config/mapping_config.rviz"/>
 
-  <node name="keyboardJetbot" 
-		pkg="jetbot_ccai"  
-		type="jetbot_teleop_keys.py" 
-		output="screen"/>
+	<node name="keyboardJetbot" pkg="jetbot_ccai" type="jetbot_teleop_keys.py" output="screen"/>
 
-  <node name="oledJetbot" 
-		pkg="jetbot_ccai"  
-		type="jetbot_oled.py" 
-		output="screen"/>
+	<node name="oledJetbot" pkg="jetbot_ccai" type="jetbot_oled.py" output="screen"/>
 
-	<include file="$(find jetbot_ccai)/launch/include/gmapping.launch"/>
- 
 </launch>

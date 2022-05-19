@@ -63,29 +63,29 @@
       <child link="${prefix}_wheelc"/>
     </joint>
 
-    <!--link name="${prefix}_wheel">
-    <visual>
-    <origin rpy="${pi/2} 0 0" xyz="0 0 0" />    
-      <geometry>
-        <cylinder length="${wheelc_len}" radius="${wheelc_r + 0.0065}"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <collision>
-    <origin rpy="${pi/2} 0 0" xyz="0 0 0" />    
-      <geometry>
-        <cylinder length="${wheelc_len}" radius="${wheelc_r + 0.0065}"/>
-      </geometry>
-    </collision>
-  </link>
+    <link name="${prefix}_wheel">
+      <visual>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+        <geometry>
+          <cylinder length="${wheelc_len}" radius="${wheelc_r + 0.0065}"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+      <collision>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+        <geometry>
+          <cylinder length="${wheelc_len}" radius="${wheelc_r + 0.0065}"/>
+        </geometry>
+      </collision>
+    </link>
 
-  <joint name="${prefix}_wheel_joint" type="continuous">
-    <axis xyz="0 1 0"/>
-    <parent link="${prefix}_wheelc"/>
-    <child link="${prefix}_wheel"/>
-    <origin xyz ="0 ${-0.0001*reflect} 0"/>  
-  </joint>
-    <xacro:tx prefix="${prefix}" suffix="wheel" /-->
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}_wheelc"/>
+      <child link="${prefix}_wheel"/>
+      <origin xyz ="0 ${-0.0001*reflect} 0"/>
+    </joint>
+    <xacro:tx prefix="${prefix}" suffix="wheel" />
   </xacro:macro>
   <!-- Wheel Macro-->
 

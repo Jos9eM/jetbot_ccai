@@ -13,7 +13,7 @@
   <!-- CHASSIS (body) -->
   <xacro:macro name="chassis">
 
-    <!--link name="base_footprint" /-->
+    <link name="base_footprint" />
     <link name="base_link">
       <visual>
         <origin xyz="0 0 ${base_z_offset}"/>
@@ -30,11 +30,12 @@
       </collision>
     </link>
 
-    <!-- Joint to connect base_link with base_footprint >
+    <!-- Joint to connect base_link with base_footprint -->
     <joint name="base_footprint_joint" type="fixed">
       <parent link="base_footprint"/>
       <child link="base_link" />
-    </joint-->
+      <origin xyz ="0 0 0"/>  
+    </joint>
 
   </xacro:macro>
 
