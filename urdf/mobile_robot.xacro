@@ -57,9 +57,13 @@
     </xacro:sensor_rplidar >
   </xacro:if>
 
+  <!-- Xacro Differential Drive Controller xacro -->
+  <xacro:include filename="$(find jetbot_ccai)/urdf/includes/gazebo/robot_gazebo_plugin.xacro"/>
+
     <!-- Gazebo plugin for ROS Control -->
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/mobile_robot</robotNamespace>
     </plugin>
   </gazebo>
 

@@ -1,27 +1,23 @@
-<?xml version="1.0"?>
 <launch>
-  <param name="robot_description" command="cat '$(find jetbot_ccai)/urdf/mobile_robot.urdf.xacro'"/>
 
-  <arg name="x" default="0"/>
-  <arg name="y" default="0"/>
-  <arg name="z" default="0"/>
+  <rosparam file="$(find jetbot_ccai)/config/joint_limits.yaml" command="load"/>
+  <rosparam file="$(find jetbot_ccai)/config/control.yaml" command="load"/>
 
-  <node name="robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model robot -x $(arg x) -y $(arg y) -z $(arg z)"/>
+  <arg name="model" default="$(find jetbot_ccai)/urdf/mobile_robot.xacro"/>
 
-  <rosparam file="$(find jetbot_ccai)/config/controllers.yaml" command="load"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)"/>
 
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/mobile_robot" args="joints_update mobile_base_controller"/>
+  <node name="robot_hardware_interface" pkg="jetbot_ccai" type="jetbot_hardware_interface" output="screen">
+    <remap from="/mobile_robot/jetbot_velocity_controller/cmd_vel" to="/cmd_vel"/>
+  </node>
+  
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+  </node>
 
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jetbot_ccai)/config/rviz_config.rviz"/>
 
-
-  <!--node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-  </node-->
-
-  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find jetbot_ccai)/config/rviz_config.rviz"/-->
-
-
-
-  <!--<node name="telop" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py"/>-->
+  <node args="jetbot_joint_state_controller jetbot_velocity_controller " ns="/mobile_robot" name="controller_manager" output="screen" pkg="controller_manager" respawn="false" type="spawner"/>
 
 </launch>
