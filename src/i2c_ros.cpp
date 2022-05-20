@@ -1,4 +1,4 @@
-#include <mobile_robot_autonomous_navigation/i2c_ros.h>
+#include <i2c_ros.h>
 
 namespace i2c_ros
 {

@@ -10,7 +10,7 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
       <joint name="${prefix}_${suffix}_joint">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
       </joint>      
     </transmission>
   </xacro:macro>

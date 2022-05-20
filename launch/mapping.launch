@@ -3,25 +3,28 @@
 	<include file="$(find jetbot_ccai)/launch/include/gmapping.launch"/>
 	<include file="$(find rplidar_ros)/launch/rplidar.launch" />
 
-	<rosparam file="$(find jetbot_ccai)/config/controllers.yaml" command="load"/>
-	<rosparam file="$(find jetbot_ccai)/config/joint_limits.yaml" command="load"/>
+	<rosparam file="$(find jetbot_ccai)/config/control.yaml" command="load"/>
 
 	<arg name="model" default="$(find jetbot_ccai)/urdf/jetbot.urdf.xacro"/>
 
 	<param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
-	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+	<node name="robot_hardware_interface" pkg="jetbot_ccai" type="mobile_robot_hardware_interface" output="screen">
+		<remap from="/mobile_robot/jetbot_velocity_controller/cmd_vel" to="/cmd_vel"/>
 	</node>
 
-	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="
-							/mobile_robot/joints_update
-							/mobile_robot/mobile_base_controller">
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
 	</node>
 
 	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find jetbot_ccai)/config/mapping_config.rviz"/>
 
-	<node name="keyboardJetbot" pkg="jetbot_ccai" type="jetbot_teleop_keys.py" output="screen"/>
+	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+        args="
+        	/mobile_robot/jetbot_joint_state_controller
+            /mobile_robot/jetbot_velocity_controller" >
+   </node>
+   
+	<node name="teleop" pkg="jetbot_ccai" type="jetbot_teleop_keys.py" output="screen"/>
 
 	<node name="oledJetbot" pkg="jetbot_ccai" type="jetbot_oled.py" output="screen"/>
-
 </launch>

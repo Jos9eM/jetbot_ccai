@@ -1,0 +1,56 @@
+<launch>
+    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+
+    <!-- Arguments -->
+    <arg name="configuration_basename" default="$(find jetbot_ccai)/config/jetbot_lds_2d.lua"/>
+    <!-- rviz configuration -->
+    <arg name="rvizconfig" default="$(find jetbot_ccai)/config/mapping_config.rviz"/>
+    <!-- Sensors -->
+    <arg name="pointcloud_enable" default="false" />
+    <arg name="realsense_enable" default="false" />
+    <arg name="lidar_enable" default="true" />
+    <arg name="visualize_laser" default="true" />
+    <arg name="imu_enable" default="false" />
+    <arg name="gps_enable" default="false" />
+    <arg name="ultrasonic_enable" default="false" />
+    <!-- Position of the robot -->
+    <arg name="x" default="1.0"/>
+    <arg name="y" default="2.0"/>
+    <arg name="z" default="-1.0"/>
+    <arg name="yaw" default="0.0"/>
+
+    <!-- Jetbot -->
+    <!-- Get the robot description -->
+    <include file="$(find jetbot_ccai)/launch/include/model.launch">
+        <arg name="pointcloud_enable" value="$(arg pointcloud_enable)" />
+        <arg name="realsense_enable" value="$(arg realsense_enable)" />
+        <arg name="lidar_enable" value="$(arg lidar_enable)"/>
+        <arg name="visualize_laser" value="$(arg visualize_laser)"/>
+        <arg name="imu_enable" value="$(arg imu_enable)"/>
+        <arg name="ultrasonic_enable" value="$(arg ultrasonic_enable)"/>
+    </include>
+
+    <!-- SLAM: Gmapping, Cartographer, Hector, Karto, Frontier_exploration, RTAB-Map -->
+    <include file="$(find jetbot_ccai)/launch/include/gmapping.launch">
+        <arg name="configuration_basename" value="$(arg configuration_basename)"/>
+    </include>
+
+    <!-- controller manager for any slam except cartographer -->
+    <include file="$(find jetbot_ccai)/launch/jetbot_controller_manager.launch" unless="$(eval arg('slam_methods') == 'cartographer')" />
+
+    <!-- rviz -->
+    <include file="$(find jetbot_ccai)/launch/view_model.launch">
+        <arg name="pointcloud_enable" value="$(arg pointcloud_enable)"/>
+        <arg name="realsense_enable" value="$(arg realsense_enable)"/>
+        <arg name="lidar_enable" value="$(arg lidar_enable)"/>
+        <arg name="visualize_laser" value="$(arg visualize_laser)"/>
+        <arg name="imu_enable" value="$(arg imu_enable)"/>
+        <arg name="gps_enable" value="$(arg gps_enable)"/>
+        <arg name="ultrasonic_enable" value="$(arg ultrasonic_enable)"/>
+        <arg name="rvizconfig" value="$(arg rvizconfig)"/>
+    </include>
+
+    <node name="keyboardJetbot" pkg="jetbot_ccai" type="jetbot_teleop_keys.py" output="screen"/>
+
+    <node name="oledJetbot" pkg="jetbot_ccai" type="jetbot_oled.py" output="screen"/>
+</launch>
