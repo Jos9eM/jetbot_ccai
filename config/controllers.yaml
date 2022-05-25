@@ -3,11 +3,11 @@ mobile_robot:
     # The joint state controller handles publishing transforms for any moving joints
     type: "joint_state_controller/JointStateController"
     publish_rate: 50
-    
+
   jetbot_velocity_controller:
     type: "diff_drive_controller/DiffDriveController"
-    left_wheel: ['lt_wheel_joint']
-    right_wheel: ['rt_wheel_joint']
+    left_wheel: ["lt_wheel_joint"]
+    right_wheel: ["rt_wheel_joint"]
     publish_rate: 50
     #extra_joints:
     #  - name: <name_of_caster_wheel_joint>
@@ -40,20 +40,20 @@ mobile_robot:
 
     # Wheel separation and radius multipliers
     wheel_separation: 0.12
-    wheel_radius: 0.034
-    # wheel_separation_multiplier: 1.0 # default: 1.0 
+    wheel_radius: 0.0315
+    # wheel_separation_multiplier: 1.0 # default: 1.0
     # wheel_radius_multiplier    : 1.0 # default: 1.0
 
     # Velocity and acceleration limits for the robot
     linear:
       x:
-        has_velocity_limits    : true
-        max_velocity           : 1.0  # m/s
+        has_velocity_limits: true
+        max_velocity: 0.6 # m/s
         has_acceleration_limits: true
-        max_acceleration       : 0.05 # m/s^2
+        max_acceleration: 0.5 # m/s^2
     angular:
       z:
-        has_velocity_limits    : true
-        max_velocity           : 2.0  # rad/s
+        has_velocity_limits: true
+        max_velocity: 8.0 # rad/s
         has_acceleration_limits: true
-        max_acceleration       : 0.6  # rad/s^2
+        max_acceleration: 0.6 # rad/s^2
