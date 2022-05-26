@@ -1,6 +1,0 @@
-<launch>
-	<arg name="multi_robot_name" default="mobile_robot"/>
-	<rosparam command="load" file="$(find jetbot_ccai)/config/jetbot_parms.yaml" />
-
-	<node pkg="jetbot_node" type="jetbot_node" name="jetbot_node" output="screen"></node>
-</launch>
