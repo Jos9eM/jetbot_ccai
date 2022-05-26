@@ -1,4 +1,4 @@
-#include <i2c_ros.h>
+#include <jetbot_hw_interface/i2c_ros.h>
 
 namespace i2c_ros
 {

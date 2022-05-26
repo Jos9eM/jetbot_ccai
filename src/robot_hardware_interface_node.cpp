@@ -1,4 +1,4 @@
-#include <robot_hardware_interface.h>
+#include <jetbot_interface/robot_hardware_interface.h>
 
 //namesapce i2c_ros
 
@@ -108,7 +108,7 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "mobile_robot_hardware_interface");
+    ros::init(argc, argv, "jetbot_interface");
     ros::NodeHandle nh;
     //ros::AsyncSpinner spinner(4);  
     ros::MultiThreadedSpinner spinner(2); // Multiple threads for controller service callback and for the Service client callback used to get the feedback from ardiuno

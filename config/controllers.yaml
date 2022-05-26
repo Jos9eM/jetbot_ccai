@@ -40,7 +40,7 @@ mobile_robot:
 
     # Wheel separation and radius multipliers
     wheel_separation: 0.12
-    wheel_radius: 0.034
+    wheel_radius: 0.0315
     # wheel_separation_multiplier: 1.0 # default: 1.0 
     # wheel_radius_multiplier    : 1.0 # default: 1.0
 

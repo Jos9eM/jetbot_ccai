@@ -11,7 +11,7 @@
 #include <rospy_tutorials/Floats.h>
 #include <angles/angles.h>
 
-#include <mobile_robot_autonomous_navigation/i2c_ros.h>
+#include <jetbot_hw_interface/i2c_ros.h>
 
 class ROBOTHardwareInterface : public hardware_interface::RobotHW 
 {
@@ -33,7 +33,7 @@ class ROBOTHardwareInterface : public hardware_interface::RobotHW
 
         joint_limits_interface::VelocityJointSaturationInterface velocityJointSaturationInterface;
         
-        std::string joint_name_[2]={"left_wheel_joint","right_wheel_joint"};  
+        std::string joint_name_[2]={"lt_wheel_joint","rt_wheel_joint"};  
         double joint_position_[2];
         double joint_velocity_[2];
         double joint_effort_[2];

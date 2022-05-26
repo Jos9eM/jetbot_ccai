@@ -1,7 +1,7 @@
 <launch>
 
   <rosparam file="$(find jetbot_ccai)/config/joint_limits.yaml" command="load"/>
-  <rosparam file="$(find jetbot_ccai)/config/control.yaml" command="load"/>
+  <rosparam file="$(find jetbot_ccai)/config/controllers.yaml" command="load"/>
 
   <arg name="model" default="$(find jetbot_ccai)/urdf/mobile_robot.xacro"/>
 
@@ -9,13 +9,10 @@
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
-  <node name="robot_hardware_interface" pkg="jetbot_ccai" type="jetbot_hardware_interface" output="screen">
+  <node name="robot_hardware_interface" pkg="jetbot_ccai" type="jetbot_interface" output="screen">
     <remap from="/mobile_robot/jetbot_velocity_controller/cmd_vel" to="/cmd_vel"/>
   </node>
   
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-  </node>
-
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jetbot_ccai)/config/rviz_config.rviz"/>
 
   <node args="jetbot_joint_state_controller jetbot_velocity_controller " ns="/mobile_robot" name="controller_manager" output="screen" pkg="controller_manager" respawn="false" type="spawner"/>

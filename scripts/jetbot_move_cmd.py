@@ -13,7 +13,7 @@ class JetbotMove(object):
         value_MULTIPLIER_PIVOT,
         value_simple_mode,
     ):
-        rospy.Subscriber("/mobile_robot/cmd_vel", Twist, self.cmd_vel_callback)
+        rospy.Subscriber("/mobile_robot/jetbot_velocity_controller/cmd_vel", Twist, self.cmd_vel_callback)
         self.jetbot_driver = JetbotDriver(
             i_BASE_PWM=value_BASE_PWM,
             i_MULTIPLIER_STANDARD=value_MULTIPLIER_STANDARD,
@@ -23,7 +23,7 @@ class JetbotMove(object):
 
         # rospy.wait_for_service('/raspicam_node/start_capture')
 
-        rospy.loginfo("Jetbot Started...")
+        rospy.loginfo("Jetbot Started....")
 
     def cmd_vel_callback(self, msg):
         linear_speed = msg.linear.x
@@ -45,10 +45,10 @@ if __name__ == "__main__":
         value_MULTIPLIER_PIVOT = float(sys.argv[3])
         value_simple_mode = sys.argv[4] == "true"
 
-        robot_mover = RobotMover(
+        jetbot_move = JetbotMove(
             value_BASE_PWM,
             value_MULTIPLIER_STANDARD,
             value_MULTIPLIER_PIVOT,
             value_simple_mode,
         )
-        robot_mover.listener()
+        jetbot_move.listener()

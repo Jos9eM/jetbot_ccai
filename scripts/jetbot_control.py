@@ -23,13 +23,13 @@ class JetbotDriver(object):
         self.D2 = 26"""
 
         # setup motor controller
-        motor_driver = Adafruit_MotorHAT(i2c_bus=1)
+        self.motor_driver = Adafruit_MotorHAT(i2c_bus=1)
 
-        motor_left_ID = 1
-        motor_right_ID = 2
+        self.motor_left_ID = 1
+        self.motor_right_ID = 2
 
-        motor_left = motor_driver.getMotor(motor_left_ID)
-        motor_right = motor_driver.getMotor(motor_right_ID)
+        self.motor_left = self.motor_driver.getMotor(self.motor_left_ID)
+        self.motor_right = self.motor_driver.getMotor(self.motor_right_ID)
 
         # stop the motors as precaution
 
@@ -48,7 +48,7 @@ class JetbotDriver(object):
         self.MULTIPLIER_STANDARD = i_MULTIPLIER_STANDARD
         self.MULTIPLIER_PIVOT = i_MULTIPLIER_PIVOT
 
-        self.all_stop
+        self.all_stop()
 
         """GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
@@ -65,17 +65,17 @@ class JetbotDriver(object):
         self.p2.start(self.PWM2)"""
 
     def __del__(self):
-        self.all_stop
+        self.all_stop()
 
     # sets motor speed between [-1.0, 1.0]
-    def set_speed(motor_ID, speed, direction):
+    def set_speed(self, motor_ID, speed, direction):
         if motor_ID == 1:
-            motor = motor_left
+            motor = self.motor_left
         elif motor_ID == 2:
-            motor = motor_right
+            motor = self.motor_right
         else:
             rospy.logerror(
-                'set_speed(%d, %f) -> invalid motor_ID=%d', motor_ID, value, motor_ID)
+                'set_speed(%d, %f) -> invalid motor_ID=%d', self.motor_ID, speed, self.motor_ID)
             return
 
         motor.setSpeed(speed)
@@ -86,58 +86,58 @@ class JetbotDriver(object):
             motor.run(Adafruit_MotorHAT.BACKWARD)
 
     # stops all motors
-    def all_stop():
-        motor_left.setSpeed(0)
-        motor_right.setSpeed(0)
+    def all_stop(self):
+        self.motor_left.setSpeed(0)
+        self.motor_right.setSpeed(0)
 
-        motor_left.run(Adafruit_MotorHAT.RELEASE)
-        motor_right.run(Adafruit_MotorHAT.RELEASE)
+        self.motor_left.run(Adafruit_MotorHAT.RELEASE)
+        self.motor_right.run(Adafruit_MotorHAT.RELEASE)
 
     def vels(speed):
         return "Velocidad:\tactual %s" % (speed)
 
     def forward(self):
         #self.set_motor(0, 1, 0, 1)
-        self.set_speed(motor_left_ID,  self.PWM2, 1)
-        self.set_speed(motor_right_ID,  self.PWM1, 1)
+        self.set_speed(self.motor_left_ID,  self.PWM2, 1)
+        self.set_speed(self.motor_right_ID,  self.PWM1, 1)
 
     def stop(self):
-        self.all_stop
+        self.all_stop()
 
     def reverse(self):
         #self.set_motor(1, 0, 1, 0)
-        self.set_speed(motor_left_ID,  self.PWM2, 0)
-        self.set_speed(motor_right_ID,  self.PWM1, 0)
+        self.set_speed(self.motor_left_ID,  self.PWM2, 0)
+        self.set_speed(self.motor_right_ID,  self.PWM1, 0)
 
     def left(self):
         #self.set_motor(0, 1, 0, 0)
-        self.set_speed(motor_left_ID,  self.PWM2, 1)
-        self.set_speed(motor_right_ID,  0, 0)
+        self.set_speed(self.motor_left_ID,  self.PWM2, 1)
+        self.set_speed(self.motor_right_ID,  0, 0)
 
     def left_reverse(self):
         #self.set_motor(1, 0, 0, 0)
-        self.set_speed(motor_left_ID,  self.PWM2, 0)
-        self.set_speed(motor_right_ID,  0, 0)
+        self.set_speed(self.motor_left_ID,  self.PWM2, 0)
+        self.set_speed(self.motor_right_ID,  0, 0)
 
     def pivot_left(self):
         #self.set_motor(1, 0, 0, 1)
-        self.set_speed(motor_left_ID,  self.PWM2, 0)
-        self.set_speed(motor_right_ID,  self.PWM1, 1)
+        self.set_speed(self.motor_left_ID,  self.PWM2, 0)
+        self.set_speed(self.motor_right_ID,  self.PWM1, 1)
 
     def right(self):
         #self.set_motor(0, 0, 0, 1)
-        self.set_speed(motor_left_ID,  0, 0)
-        self.set_speed(motor_right_ID,  self.PWM1, 1)
+        self.set_speed(self.motor_left_ID,  0, 0)
+        self.set_speed(self.motor_right_ID,  self.PWM1, 1)
 
     def right_reverse(self):
         #self.set_motor(0, 0, 1, 0)
-        self.set_speed(motor_left_ID,  0, 0)
-        self.set_speed(motor_right_ID,  self.PWM1, 0)
+        self.set_speed(self.motor_left_ID,  0, 0)
+        self.set_speed(self.motor_right_ID,  self.PWM1, 0)
 
     def pivot_right(self):
         #self.set_motor(0, 1, 1, 0)
-        self.set_speed(motor_left_ID,  self.PWM2, 1)
-        self.set_speed(motor_right_ID,  self.PWM1, 0)
+        self.set_speed(self.motor_left_ID,  self.PWM2, 1)
+        self.set_speed(self.motor_right_ID,  self.PWM1, 0)
 
     def set_M1M2_speed(self, rpm_speedM1, rpm_speedM2, multiplier):
 
@@ -147,12 +147,12 @@ class JetbotDriver(object):
     def set_M1_speed(self, rpm_speed, multiplier):
         self.PWM1 = min(int((rpm_speed * multiplier)
                         * self.BASE_PWM), self.MAX_PWM)
-        self.vels(right_speed)
+        #self.vels(self.PWM1)
 
     def set_M2_speed(self, rpm_speed, multiplier):
         self.PWM2 = min(int(rpm_speed * multiplier *
                         self.BASE_PWM), self.MAX_PWM)
-        self.vels(left_speed)
+        #self.vels(self.PWM2)
 
     def calculate_body_turn_radius(self, linear_speed, angular_speed):
         if angular_speed != 0.0:
