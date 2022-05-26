@@ -1,0 +1,16 @@
+<launch>
+    <!-- Arguments -->
+    <arg name="BASE_PWM" default="50"/>
+    <arg name="MULTIPLIER_STANDARD" default="0.1"/>
+    <arg name="MULTIPLIER_PIVOT" default="1.0"/>
+    <arg name="simple_mode" default="true"/>
+
+    <!-- Jetbot Driver -->
+    <node pkg="jetbot_ccai" type="jetbot_move_cmd.py" name="jetbot_driver" output="screen" respawn="false" args="$(arg BASE_PWM) $(arg MULTIPLIER_STANDARD) $(arg MULTIPLIER_PIVOT) $(arg simple_mode)"/>
+
+    <!-- Keyboard Teleop -->
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="keyboard_teleop" output="screen" respawn="false" args="">
+        <remap from="cmd_vel" to="/mobile_robot/cmd_vel" />
+    </node>
+
+</launch>
