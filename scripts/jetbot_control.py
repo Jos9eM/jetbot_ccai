@@ -7,13 +7,13 @@ from Adafruit_MotorHAT import Adafruit_MotorHAT
 
 class JetbotDriver(object):
 
-    def __init__(self, wheel_distance=0.12, wheel_diameter=0.0315, i_BASE_PWM=50, i_MULTIPLIER_STANDARD=0.1, i_MULTIPLIER_PIVOT=1.0, simple_mode = True):
+    def __init__(self, wheel_distance=0.12, wheel_diameter=0.0315, i_BASE_PWM=50, i_MULTIPLIER_STANDARD=0.1, i_MULTIPLIER_PIVOT=1.0, simple_mode=True):
         """
         M1 = Right Wheel
         M2 = Left Wheel
         :param wheel_distance: Distance Between wheels in meters
         :param wheel_diameter: Diameter of the wheels in meters
-        
+
         self.PIN = 18
         self.PWMA1 = 6
         self.PWMA2 = 13
@@ -66,7 +66,7 @@ class JetbotDriver(object):
 
     def __del__(self):
         self.all_stop
-    
+
     # sets motor speed between [-1.0, 1.0]
     def set_speed(motor_ID, speed, direction):
         if motor_ID == 1:
@@ -74,9 +74,10 @@ class JetbotDriver(object):
         elif motor_ID == 2:
             motor = motor_right
         else:
-            rospy.logerror('set_speed(%d, %f) -> invalid motor_ID=%d', motor_ID, value, motor_ID)
+            rospy.logerror(
+                'set_speed(%d, %f) -> invalid motor_ID=%d', motor_ID, value, motor_ID)
             return
-        
+
         motor.setSpeed(speed)
 
         if direction > 0:
@@ -92,52 +93,51 @@ class JetbotDriver(object):
         motor_left.run(Adafruit_MotorHAT.RELEASE)
         motor_right.run(Adafruit_MotorHAT.RELEASE)
 
-
     def vels(speed):
         return "Velocidad:\tactual %s" % (speed)
 
     def forward(self):
         #self.set_motor(0, 1, 0, 1)
         self.set_speed(motor_left_ID,  self.PWM2, 1)
-	    self.set_speed(motor_right_ID,  self.PWM1, 1)
-    
+        self.set_speed(motor_right_ID,  self.PWM1, 1)
+
     def stop(self):
         self.all_stop
 
     def reverse(self):
         #self.set_motor(1, 0, 1, 0)
         self.set_speed(motor_left_ID,  self.PWM2, 0)
-		self.set_speed(motor_right_ID,  self.PWM1, 0)
+        self.set_speed(motor_right_ID,  self.PWM1, 0)
 
     def left(self):
         #self.set_motor(0, 1, 0, 0)
         self.set_speed(motor_left_ID,  self.PWM2, 1)
-		self.set_speed(motor_right_ID,  0, 0)
+        self.set_speed(motor_right_ID,  0, 0)
 
     def left_reverse(self):
         #self.set_motor(1, 0, 0, 0)
         self.set_speed(motor_left_ID,  self.PWM2, 0)
-		self.set_speed(motor_right_ID,  0, 0)
+        self.set_speed(motor_right_ID,  0, 0)
 
     def pivot_left(self):
         #self.set_motor(1, 0, 0, 1)
         self.set_speed(motor_left_ID,  self.PWM2, 0)
-		self.set_speed(motor_right_ID,  self.PWM1, 1)
+        self.set_speed(motor_right_ID,  self.PWM1, 1)
 
     def right(self):
         #self.set_motor(0, 0, 0, 1)
         self.set_speed(motor_left_ID,  0, 0)
-		self.set_speed(motor_right_ID,  self.PWM1, 1)
+        self.set_speed(motor_right_ID,  self.PWM1, 1)
 
     def right_reverse(self):
         #self.set_motor(0, 0, 1, 0)
         self.set_speed(motor_left_ID,  0, 0)
-		self.set_speed(motor_right_ID,  self.PWM1, 0)
+        self.set_speed(motor_right_ID,  self.PWM1, 0)
 
     def pivot_right(self):
         #self.set_motor(0, 1, 1, 0)
         self.set_speed(motor_left_ID,  self.PWM2, 1)
-		self.set_speed(motor_right_ID,  self.PWM1, 0)
+        self.set_speed(motor_right_ID,  self.PWM1, 0)
 
     def set_M1M2_speed(self, rpm_speedM1, rpm_speedM2, multiplier):
 
@@ -145,11 +145,13 @@ class JetbotDriver(object):
         self.set_M2_speed(rpm_speedM2, multiplier)
 
     def set_M1_speed(self, rpm_speed, multiplier):
-        self.PWM1 = min(int((rpm_speed * multiplier) * self.BASE_PWM), self.MAX_PWM)
+        self.PWM1 = min(int((rpm_speed * multiplier)
+                        * self.BASE_PWM), self.MAX_PWM)
         self.vels(right_speed)
 
     def set_M2_speed(self, rpm_speed, multiplier):
-        self.PWM2 = min(int(rpm_speed * multiplier * self.BASE_PWM), self.MAX_PWM)
+        self.PWM2 = min(int(rpm_speed * multiplier *
+                        self.BASE_PWM), self.MAX_PWM)
         self.vels(left_speed)
 
     def calculate_body_turn_radius(self, linear_speed, angular_speed):
@@ -178,7 +180,8 @@ class JetbotDriver(object):
             else:
                 assert False, "Wheel Name not supported, left or right only."
 
-            wheel_turn_radius = body_turn_radius + ( wheel_sign * (self._wheel_distance / 2.0))
+            wheel_turn_radius = body_turn_radius + \
+                (wheel_sign * (self._wheel_distance / 2.0))
         else:
             wheel_turn_radius = None
 
@@ -195,7 +198,8 @@ class JetbotDriver(object):
         """
         if wheel_turn_radius is not None:
             # The robot is turning
-            wheel_rpm = (angular_speed * wheel_turn_radius) / self._wheel_radius
+            wheel_rpm = (angular_speed * wheel_turn_radius) / \
+                self._wheel_radius
         else:
             # Its not turning therefore the wheel speed is the same as the body
             wheel_rpm = linear_speed / self._wheel_radius
@@ -204,11 +208,12 @@ class JetbotDriver(object):
 
     def set_wheel_movement(self, right_wheel_rpm, left_wheel_rpm):
 
-        #print("W1,W2=["+str(right_wheel_rpm)+","+str(left_wheel_rpm)+"]")
+        # print("W1,W2=["+str(right_wheel_rpm)+","+str(left_wheel_rpm)+"]")
 
         if right_wheel_rpm > 0.0 and left_wheel_rpm > 0.0:
             #print("All forwards")
-            self.set_M1M2_speed(abs(right_wheel_rpm), abs(left_wheel_rpm), self.MULTIPLIER_STANDARD)
+            self.set_M1M2_speed(abs(right_wheel_rpm), abs(
+                left_wheel_rpm), self.MULTIPLIER_STANDARD)
 
             if self.simple_mode:
                 # We make it turn only on one wheel
@@ -225,29 +230,32 @@ class JetbotDriver(object):
                 #print("GO FORWARDS")
                 self.forward()
 
-
-
         elif right_wheel_rpm > 0.0 and left_wheel_rpm == 0.0:
             #print("Right Wheel forwards, left stop")
-            self.set_M1M2_speed(abs(right_wheel_rpm), abs(left_wheel_rpm), self.MULTIPLIER_STANDARD)
+            self.set_M1M2_speed(abs(right_wheel_rpm), abs(
+                left_wheel_rpm), self.MULTIPLIER_STANDARD)
             self.left()
 
         elif right_wheel_rpm > 0.0 and left_wheel_rpm < 0.0:
             #print("Right Wheel forwards, left backwards --> Pivot left")
-            self.set_M1M2_speed(abs(right_wheel_rpm), abs(left_wheel_rpm), self.MULTIPLIER_PIVOT)
+            self.set_M1M2_speed(abs(right_wheel_rpm), abs(
+                left_wheel_rpm), self.MULTIPLIER_PIVOT)
             self.pivot_left()
         elif right_wheel_rpm == 0.0 and left_wheel_rpm > 0.0:
             #print("Right stop, left forwards")
-            self.set_M1M2_speed(abs(right_wheel_rpm), abs(left_wheel_rpm), self.MULTIPLIER_STANDARD)
+            self.set_M1M2_speed(abs(right_wheel_rpm), abs(
+                left_wheel_rpm), self.MULTIPLIER_STANDARD)
             self.right()
 
         elif right_wheel_rpm < 0.0 and left_wheel_rpm > 0.0:
             #print("Right backwards, left forwards --> Pivot right")
-            self.set_M1M2_speed(abs(right_wheel_rpm), abs(left_wheel_rpm), self.MULTIPLIER_PIVOT)
+            self.set_M1M2_speed(abs(right_wheel_rpm), abs(
+                left_wheel_rpm), self.MULTIPLIER_PIVOT)
             self.pivot_right()
         elif right_wheel_rpm < 0.0 and left_wheel_rpm < 0.0:
             #print("All backwards")
-            self.set_M1M2_speed(abs(right_wheel_rpm), abs(left_wheel_rpm), self.MULTIPLIER_STANDARD)
+            self.set_M1M2_speed(abs(right_wheel_rpm), abs(
+                left_wheel_rpm), self.MULTIPLIER_STANDARD)
 
             if self.simple_mode:
                 # We make it turn only on one wheel
@@ -263,20 +271,20 @@ class JetbotDriver(object):
             else:
                 self.reverse()
 
-
-
-
         elif right_wheel_rpm == 0.0 and left_wheel_rpm == 0.0:
             #print("Right stop, left stop")
-            self.set_M1M2_speed(abs(right_wheel_rpm), abs(left_wheel_rpm), self.MULTIPLIER_STANDARD)
+            self.set_M1M2_speed(abs(right_wheel_rpm), abs(
+                left_wheel_rpm), self.MULTIPLIER_STANDARD)
             self.stop()
         else:
-            assert False, "A case wasn't considered==>"+str(right_wheel_rpm)+","+str(left_wheel_rpm)
+            assert False, "A case wasn't considered==>" + \
+                str(right_wheel_rpm)+","+str(left_wheel_rpm)
             pass
 
     def set_cmd_vel(self, linear_speed, angular_speed):
 
-        body_turn_radius = self.calculate_body_turn_radius(linear_speed, angular_speed)
+        body_turn_radius = self.calculate_body_turn_radius(
+            linear_speed, angular_speed)
 
         wheel = "right"
         right_wheel_turn_radius = self.calculate_wheel_turn_radius(body_turn_radius,
@@ -288,8 +296,9 @@ class JetbotDriver(object):
                                                                   angular_speed,
                                                                   wheel)
 
-        right_wheel_rpm = self.calculate_wheel_rpm(linear_speed, angular_speed, right_wheel_turn_radius)
-        left_wheel_rpm = self.calculate_wheel_rpm(linear_speed, angular_speed, left_wheel_turn_radius)
-
+        right_wheel_rpm = self.calculate_wheel_rpm(
+            linear_speed, angular_speed, right_wheel_turn_radius)
+        left_wheel_rpm = self.calculate_wheel_rpm(
+            linear_speed, angular_speed, left_wheel_turn_radius)
 
         self.set_wheel_movement(right_wheel_rpm, left_wheel_rpm)
