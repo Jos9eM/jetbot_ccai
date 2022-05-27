@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-	<!--include file="$(find jetbot_ccai)/launch/include/jetbot_driver.launch" /-->
+	<include file="$(find jetbot_ccai)/launch/include/jetbot_driver.launch" />
 	<include file="$(find jetbot_ccai)/launch/include/gmapping.launch"/>
 	<include file="$(find rplidar_ros)/launch/rplidar.launch" />
 
@@ -15,8 +15,8 @@
 		<remap from="/jetbot_velocity_controller/cmd_vel" to="/cmd_vel"/>
 	</node>
 
-	<node pkg="tf" type="static_transform_publisher" name="base_map" args="0 0 0 0 0 0 /map /odom 100" />
-	<node pkg="tf" type="static_transform_publisher" name="base_link_odom" args="0 0 0 0 0 0 /odom /base_footprint 100" />
+	<!--node pkg="tf" type="static_transform_publisher" name="base_map" args="0 0 0 0 0 0 /map /odom 100" />
+	<node pkg="tf" type="static_transform_publisher" name="base_link_odom" args="0 0 0 0 0 0 /odom /base_footprint 100" /-->
 
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
 		<!--remap from="/joint_states" to="/mobile_robot/joint_states"/-->
@@ -30,6 +30,6 @@
 	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="jetbot_joint_state_controller jetbot_velocity_controller">
 	</node>
 
-	<node name="teleop" pkg="jetbot_ccai" type="jetbot_teleop_keys.py" output="screen"/>
+	<!--node name="teleop" pkg="jetbot_ccai" type="jetbot_teleop_keys.py" output="screen"/-->
 	<node name="oledJetbot" pkg="jetbot_ccai" type="jetbot_oled.py" output="screen"/>
 </launch>

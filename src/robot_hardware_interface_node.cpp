@@ -1,4 +1,4 @@
-#include <jetbot_interface/robot_hardware_interface.h>
+#include <jetbot_hw_interface/robot_hardware_interface.h>
 
 //namesapce i2c_ros
 

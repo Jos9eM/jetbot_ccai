@@ -132,6 +132,10 @@ include_directories(
 
 ## Declare a C++ library
  add_library(i2c_ros src/i2c_ros.cpp)
+ add_library(i2c_adafruit src/i2cdevice.cpp)
+ add_library(adafruit_motor src/adafruitdcmotor.cpp)
+ add_library(adafruit_hat src/adafruitmotorhat.cpp)
+ add_library(pwm src/pwm.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -154,7 +158,7 @@ add_executable(jetbot_interface src/robot_hardware_interface_node.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(jetbot_interface i2c_ros ${catkin_LIBRARIES})
+target_link_libraries(jetbot_interface i2c_ros i2c_adafruit adafruit_motor adafruit_hat pwm ${catkin_LIBRARIES})
 
 #############
 ## Install ##

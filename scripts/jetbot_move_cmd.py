@@ -13,7 +13,7 @@ class JetbotMove(object):
         value_MULTIPLIER_PIVOT,
         value_simple_mode,
     ):
-        rospy.Subscriber("/mobile_robot/jetbot_velocity_controller/cmd_vel", Twist, self.cmd_vel_callback)
+        rospy.Subscriber("/cmd_vel", Twist, self.cmd_vel_callback)
         self.jetbot_driver = JetbotDriver(
             i_BASE_PWM=value_BASE_PWM,
             i_MULTIPLIER_STANDARD=value_MULTIPLIER_STANDARD,
