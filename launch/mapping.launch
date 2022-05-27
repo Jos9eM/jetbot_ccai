@@ -7,7 +7,7 @@
 	<rosparam file="$(find jetbot_ccai)/config/controllers.yaml" command="load"/>
 	<rosparam file="$(find jetbot_ccai)/config/joint_limits.yaml" command="load"/>
 
-	<arg name="model" default="$(find jetbot_ccai)/urdf/mobile_robot.xacro"/>
+	<arg name="model" default="$(find jetbot_ccai)/urdf/mobile_robot.urdf.xacro"/>
 
 	<param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
@@ -25,13 +25,11 @@
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
 	</node>
 
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find jetbot_ccai)/config/mapping_config.rviz"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find jetbot_ccai)/config/rviz_mapping.rviz"/>
 
-	<node name="controller_spawner" pkg="controller_manager" ns="/mobile_robot" type="spawner" respawn="false" output="screen" args="jetbot_joint_state_controller jetbot_velocity_controller">
+	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="jetbot_joint_state_controller jetbot_velocity_controller">
 	</node>
 
-	<!--node name="teleop" pkg="jetbot_ccai" type="jetbot_teleop_keys.py" output="screen"/-->
-	<node name="teleop" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen"/>
-
+	<node name="teleop" pkg="jetbot_ccai" type="jetbot_teleop_keys.py" output="screen"/>
 	<node name="oledJetbot" pkg="jetbot_ccai" type="jetbot_oled.py" output="screen"/>
 </launch>

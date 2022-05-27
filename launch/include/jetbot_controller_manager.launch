@@ -4,7 +4,7 @@
   <!--      you must call gazebo first and then this node     -->
 
   <!-- Load controller configuration -->
-  <rosparam command="load" file="$(find jetbot_ccai)/config/control.yaml" />
+  <rosparam command="load" file="$(find jetbot_ccai)/config/controllers.yaml" />
 
   <!-- Spawn controllers -->
   <!-- the control manager arguments are the same as in the control.yaml file to work -->  

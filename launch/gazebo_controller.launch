@@ -1,0 +1,14 @@
+<launch>
+    <param name="robot_description" command="cat '$(find jetbot_ccai)/urdf/mobile_robot.urdf.xacro'"/>
+
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+
+    <node name="robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model mobile_robot -x $(arg x) -y $(arg y) -z $(arg z)"/>
+
+    <rosparam file="$(find jetbot_ccai)/config/controllers.yaml" command="load"/>
+
+    <node args="jetbot_joint_state_controller jetbot_velocity_controller" name="controller_manager" output="screen" pkg="controller_manager" respawn="false" type="spawner"/>
+
+</launch>

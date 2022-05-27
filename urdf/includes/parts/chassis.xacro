@@ -7,38 +7,37 @@
   <xacro:property name="base_height" value="0.035"/>
   <xacro:property name="base_z_offset" value="0.013"/>
   <xacro:property name="base_mass" value="0.045" />
-  <!--xacro:property name="base_mass" value="0.6" /-->
+  <!--xacro:property name="base_mass" value="0.6" /-->  
   <!-- Chassis constants -->
 
   <!-- CHASSIS (body) -->
-  <xacro:macro name="chassis">
+  <xacro:macro name="chassis" >
 
-    <link name="base_footprint" />
-    <link name="base_link">
-      <visual>
-        <origin xyz="0 0 ${base_z_offset}"/>
-        <geometry>
-          <box size="${base_len} ${base_width} ${base_height}"/>
-        </geometry>
-        <material name="blue"/>
-      </visual>
-      <collision>
-        <origin xyz="0 0 ${base_z_offset}"/>
-        <geometry>
-          <box size="${base_len} ${base_width} ${base_height}"/>
-        </geometry>
-      </collision>
-    </link>
+  <link name="base_footprint" />
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${base_z_offset}"/>    
+      <geometry>
+        <box size="${base_len} ${base_width} ${base_height}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${base_z_offset}"/>    
+      <geometry>
+        <box size="${base_len} ${base_width} ${base_height}"/>
+      </geometry>
+    </collision>    
+  </link>
 
-    <!-- Joint to connect base_link with base_footprint -->
-    <joint name="base_footprint_joint" type="fixed">
-      <parent link="base_footprint"/>
-      <child link="base_link" />
-      <origin xyz ="0 0 0"/>  
-    </joint>
+  <!-- Joint to connect base_link with base_footprint -->
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
 
   </xacro:macro>
 
-  <!-- CHASSIS (body) -->
+  <!-- CHASSIS (body) -->  
 
 </robot>

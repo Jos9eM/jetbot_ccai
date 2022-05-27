@@ -14,6 +14,10 @@
 
   <!-- Caster Ball constants -->
 
+  <!-- Inertia Macro -->
+  <!--xacro:include filename="$(find jetbot_ccai)/urdf/includes/gazebo/inertias.xacro" /-->  
+  <!-- Inertia Macro -->
+
   <!-- Caster Wheel Left and Right Mini Cylinder Macros -->
   <xacro:macro name="caster_minicyl" params="prefix suffix reflect">
   <link name="${prefix}_caster_${suffix}_cyl">

@@ -3,7 +3,7 @@
 <!-- and rviz, just the model                           -->
   <!-- rviz configuration -->
   <arg name="gui" default="true" />
-  <arg name="rvizconfig" default="$(find jetbot_ccai)/config/rviz_slam.rviz" />
+  <arg name="rvizconfig" default="$(find jetbot_ccai)/config/rviz_model.rviz" />
 
   <!-- arguments for the realsense camera to load -->
   <arg name="pointcloud_enable" default="false" />

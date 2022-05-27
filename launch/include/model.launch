@@ -17,7 +17,7 @@
   <arg name="ultrasonic_enable" default="false" />
 
   <!-- arguments for model, rviz and gui -->
-  <arg name="model" default="$(find jetbot_ccai)/urdf/jetbot.urdf.xacro
+  <arg name="model" default="$(find jetbot_ccai)/urdf/mobile_robot.urdf.xacro
                             pointcloud_enable:=$(arg pointcloud_enable) 
                             realsense_enable:=$(arg realsense_enable)
                             lidar_enable:=$(arg lidar_enable)
