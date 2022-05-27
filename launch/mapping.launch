@@ -12,7 +12,7 @@
 	<param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
 	<node name="robot_hardware_interface" pkg="jetbot_ccai" type="jetbot_interface" output="screen">
-		<remap from="/mobile_robot/jetbot_velocity_controller/cmd_vel" to="/cmd_vel"/>
+		<remap from="/jetbot_velocity_controller/cmd_vel" to="/cmd_vel"/>
 	</node>
 
 	<node pkg="tf" type="static_transform_publisher" name="base_map" args="0 0 0 0 0 0 /map /odom 100" />
