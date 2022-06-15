@@ -125,7 +125,7 @@ void I2CDevice::writeByteData (int deviceRegister, int data)
 
     if (write (handle, buffer, 2) != 2)
     {
-        log::strerror ("Failed to write to device");
+       // log::strerror ("Failed to write to device");
     }
 }
 

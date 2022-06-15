@@ -136,6 +136,7 @@ include_directories(
  add_library(adafruit_motor src/adafruitdcmotor.cpp)
  add_library(adafruit_hat src/adafruitmotorhat.cpp)
  add_library(pwm src/pwm.cpp)
+ add_library(pid src/pid.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

@@ -38,7 +38,7 @@ namespace i2c_ros
 				ROS_ERROR("%s. Failed to write to I2C Slave 0x%x @ [write_byte():write %d]", strerror(errno), _i2caddr, errno);
 				return result;
 			} else {
-				//ROS_INFO("Wrote to I2C Slave 0x%x", _i2caddr);
+				ROS_INFO("Wrote to I2C Slave 0x%x", _i2caddr);
 				return result;
 			}
 		} else {

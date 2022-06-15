@@ -6,7 +6,7 @@ ROBOTHardwareInterface::ROBOTHardwareInterface(ros::NodeHandle& nh) : nh_(nh) {
     init();
 
     controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
-    loop_hz_=10;
+    loop_hz_=30;
     ros::Duration update_freq = ros::Duration(1.0/loop_hz_);
 	
 	
@@ -53,18 +53,17 @@ void ROBOTHardwareInterface::read() {
     uint8_t rbuff[1];
     int x;
 
-    left_motor.readBytes(rbuff,1);
+    encoder_left.readBytes(rbuff,1);
     x=(int8_t)rbuff[0];
     left_motor_pos+=angles::from_degrees((double)x);
     joint_position_[0]=left_motor_pos;
 
-    right_motor.readBytes(rbuff,1);
+    encoder_right.readBytes(rbuff,1);
     x=(int8_t)rbuff[0];
     right_motor_pos+=angles::from_degrees((double)x);
     joint_position_[1]=right_motor_pos;
 
     //ROS_INFO("pos=%.2f x=%d ",pos,x);
-	
 }
 
 void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
@@ -83,7 +82,19 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
 
     if(left_prev_cmd!=velocity)
     {
-	    result = left_motor.writeData(wbuff,2);
+        if(auto motor { hat.getMotor (1) }){
+            motor->setSpeed (255);
+
+            motor->run (AdafruitDCMotor::kForward);
+            ros::Duration(1).sleep();
+
+            motor->run (AdafruitDCMotor::kBackward);
+            ros::Duration(1).sleep();
+
+            // release the motor after use
+            motor->run (AdafruitDCMotor::kRelease);
+        }
+	    //result = hat.writeData(wbuff,2);
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    left_prev_cmd=velocity;
     }
@@ -95,7 +106,19 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
 
     if(right_prev_cmd!=velocity)
     {
-	    result = right_motor.writeData(wbuff,2);
+        if(auto motor { hat.getMotor (2) }){
+            motor->setSpeed (255);
+
+            motor->run (AdafruitDCMotor::kForward);
+            ros::Duration(1).sleep();
+
+            motor->run (AdafruitDCMotor::kBackward);
+            ros::Duration(1).sleep();
+
+            // release the motor after use
+            motor->run (AdafruitDCMotor::kRelease);
+        }
+	    //result = right_motor.writeData(wbuff,2);
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    right_prev_cmd=velocity;
     }
