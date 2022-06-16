@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-	<include file="$(find jetbot_ccai)/launch/include/jetbot_driver.launch" />
+	<!--include file="$(find jetbot_ccai)/launch/include/jetbot_driver.launch" /-->
 	<include file="$(find jetbot_ccai)/launch/include/gmapping.launch"/>
 	<include file="$(find rplidar_ros)/launch/rplidar.launch" />
 

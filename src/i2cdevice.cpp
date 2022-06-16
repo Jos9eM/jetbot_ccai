@@ -47,7 +47,7 @@ std::string getFilenameForBus (int busNumber)
 }
 
 I2CDevice::I2CDevice (int i2cAddress)
-    : busNumber (getDefaultBusNumber())
+    : busNumber (1)
     , address (i2cAddress)
     , handle (-1)
 {
@@ -125,7 +125,7 @@ void I2CDevice::writeByteData (int deviceRegister, int data)
 
     if (write (handle, buffer, 2) != 2)
     {
-       // log::strerror ("Failed to write to device");
+       log::strerror ("Failed to write to device");
     }
 }
 

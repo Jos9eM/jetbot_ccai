@@ -82,8 +82,10 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
 
     if(left_prev_cmd!=velocity)
     {
+        ROS_INFO("Running Motor Ledf CMD");
         if(auto motor { hat.getMotor (1) }){
-            motor->setSpeed (255);
+            ROS_INFO("Running Motor Left");
+            motor->setSpeed (50);
 
             motor->run (AdafruitDCMotor::kForward);
             ros::Duration(1).sleep();
@@ -107,7 +109,7 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
     if(right_prev_cmd!=velocity)
     {
         if(auto motor { hat.getMotor (2) }){
-            motor->setSpeed (255);
+            motor->setSpeed (50);
 
             motor->run (AdafruitDCMotor::kForward);
             ros::Duration(1).sleep();
