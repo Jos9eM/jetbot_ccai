@@ -7,8 +7,8 @@ from Adafruit_MotorHAT import Adafruit_MotorHAT
 
 class JetbotDriver(object):
 
-    def __init__(self, wheel_distance=0.12, wheel_diameter=0.0315, i_BASE_PWM=50, i_MULTIPLIER_STANDARD=0.1, i_MULTIPLIER_PIVOT=1.0, simple_mode=True):
-        """
+    def __init__(self, wheel_distance=0.123, wheel_diameter=0.0645, i_BASE_PWM=50, i_MULTIPLIER_STANDARD=0.1, i_MULTIPLIER_PIVOT=1.0, simple_mode=True):
+        """wheel_diameter
         M1 = Right Wheel
         M2 = Left Wheel
         :param wheel_distance: Distance Between wheels in meters
