@@ -13,6 +13,7 @@
 
 #include <jetbot_hw_interface/adafruitmotorhat.h>
 #include <jetbot_hw_interface/i2c_ros.h>
+#include <jetbot_hw_interface/pid.h>
 
 class ROBOTHardwareInterface : public hardware_interface::RobotHW 
 {
@@ -45,6 +46,12 @@ class ROBOTHardwareInterface : public hardware_interface::RobotHW
        	i2c_ros::I2C encoder_left= i2c_ros::I2C(0, 0x09);
         i2c_ros::I2C encoder_right= i2c_ros::I2C(0, 0x08);
         AdafruitMotorHAT hat = AdafruitMotorHAT(0x60, 1600);
+
+        double kp =1, ki =20 , kd =0; 
+        double inputLeft= 0, outPWML = 0, setPointL = 0;
+        double inputRight= 0, outPWMR = 0, setPointR = 0;
+        PID pidLeft = PID(&inputLeft, &outPWML, &setPointL, kp, ki, kd, DIRECT);
+        PID pidRight = PID(&inputRight, &outPWMR, &setPointR, kp, ki, kd, DIRECT);
 
         ros::NodeHandle nh_;
         ros::Timer non_realtime_loop_;

@@ -5,6 +5,14 @@
 ROBOTHardwareInterface::ROBOTHardwareInterface(ros::NodeHandle& nh) : nh_(nh) {
     init();
 
+    pidLeft.SetMode(AUTOMATIC);
+    pidLeft.SetSampleTime(1);
+    pidLeft.SetOutputLimits(-115, 115);
+
+    pidRight.SetMode(AUTOMATIC);
+    pidRight.SetSampleTime(1);
+    pidRight.SetOutputLimits(-115, 115);
+
     controller_manager_.reset(new controller_manager::ControllerManager(this, nh_));
     loop_hz_=30;
     ros::Duration update_freq = ros::Duration(1.0/loop_hz_);
@@ -43,6 +51,8 @@ void ROBOTHardwareInterface::init() {
 }
 
 void ROBOTHardwareInterface::update(const ros::TimerEvent& e) {
+    pidLeft.Compute();
+    pidRight.Compute();
     elapsed_time_ = ros::Duration(e.current_real - e.last_real);
     read();
     controller_manager_->update(ros::Time::now(), elapsed_time_);
@@ -55,11 +65,13 @@ void ROBOTHardwareInterface::read() {
 
     encoder_left.readBytes(rbuff,1);
     x=(int8_t)rbuff[0];
+    inputLeft = x;
     left_motor_pos+=angles::from_degrees((double)x);
     joint_position_[0]=left_motor_pos;
 
     encoder_right.readBytes(rbuff,1);
     x=(int8_t)rbuff[0];
+    inputRight = x;
     right_motor_pos+=angles::from_degrees((double)x);
     joint_position_[1]=right_motor_pos;
 
@@ -82,15 +94,14 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
 
     if(left_prev_cmd!=velocity)
     {
+        setPointL = velocity;
         if(auto motor { hat.getMotor (1) }){
-            motor->setSpeed (255);
-
-            motor->run (AdafruitDCMotor::kForward);
-            ros::Duration(1).sleep();
-
-            motor->run (AdafruitDCMotor::kBackward);
-            ros::Duration(1).sleep();
-
+            motor->setSpeed (abs(outPWML));
+            if(outPWML > 0){
+                motor->run (AdafruitDCMotor::kForward);
+            } else if (outPWML <0){
+                motor->run (AdafruitDCMotor::kBackward);
+            }
             // release the motor after use
             motor->run (AdafruitDCMotor::kRelease);
         }
@@ -106,15 +117,15 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
 
     if(right_prev_cmd!=velocity)
     {
+        setPointR = velocity;
+
         if(auto motor { hat.getMotor (2) }){
-            motor->setSpeed (255);
-
-            motor->run (AdafruitDCMotor::kForward);
-            ros::Duration(1).sleep();
-
-            motor->run (AdafruitDCMotor::kBackward);
-            ros::Duration(1).sleep();
-
+            motor->setSpeed (abs(outPWMR));
+            if(outPWMR > 0){
+                motor->run (AdafruitDCMotor::kForward);
+            } else if (outPWMR < 0){
+                motor->run (AdafruitDCMotor::kBackward);
+            }
             // release the motor after use
             motor->run (AdafruitDCMotor::kRelease);
         }
