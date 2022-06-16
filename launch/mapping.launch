@@ -25,8 +25,6 @@
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
 	</node>
 
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find jetbot_ccai)/config/rviz_mapping.rviz"/>
-
 	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="jetbot_joint_state_controller jetbot_velocity_controller">
 	</node>
 
