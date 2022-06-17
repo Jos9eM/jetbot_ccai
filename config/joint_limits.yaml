@@ -10,9 +10,9 @@ joint_limits:
       max_acceleration: 0.0
       has_jerk_limits: false
       max_jerk: 0
-      has_effort_limits: false
-      max_effort: 0
-      min_effort: 0
+      has_effort_limits: true
+      max_effort: 115
+      min_effort: -115
     
     rt_wheel_joint:
       has_position_limits: false
@@ -25,6 +25,6 @@ joint_limits:
       max_acceleration: 0.0
       has_jerk_limits: false
       max_jerk: 0
-      has_effort_limits: false
-      max_effort: 0
-      min_effort: 0
+      has_effort_limits: true
+      max_effort: 115
+      min_effort: -115

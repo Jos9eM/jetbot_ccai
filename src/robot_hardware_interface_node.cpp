@@ -23,6 +23,10 @@ void ROBOTHardwareInterface::init() {
 	// Create joint state interface
         hardware_interface::JointStateHandle jointStateHandle(joint_name_[i], &joint_position_[i], &joint_velocity_[i], &joint_effort_[i]);
         joint_state_interface_.registerHandle(jointStateHandle);
+
+    // Create effort joint interface
+	    hardware_interface::JointHandle jointEffortHandle(jointStateHandle, &joint_effort_command_[i]);
+        effort_joint_interface_.registerHandle(jointEffortHandle);
        
     // Create velocity joint interface
 	    hardware_interface::JointHandle jointVelocityHandle(jointStateHandle, &joint_velocity_command_[i]);
@@ -38,6 +42,7 @@ void ROBOTHardwareInterface::init() {
     
 // Register all joints interfaces    
     registerInterface(&joint_state_interface_);
+    registerInterface(&effort_joint_interface_);
     registerInterface(&velocity_joint_interface_);
     registerInterface(&velocityJointSaturationInterface);
 }
@@ -68,33 +73,33 @@ void ROBOTHardwareInterface::read() {
 
 void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
    
+    effortJointSaturationInterface.enforceLimits(elapsed_time);
     velocityJointSaturationInterface.enforceLimits(elapsed_time);   
 
 	uint8_t wbuff[2];
 
-    int velocity,result;
-    
-    
+    int velocity, result, effort;
+         
     velocity=(int)angles::to_degrees(joint_velocity_command_[0]);
-	wbuff[0]=velocity;
-    wbuff[1]=velocity >> 8;
-	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
+    effort = joint_effort_command_[0];
+	
+    //ROS_INFO("joint_effort_command_[0]=%.2f", effort);
+    //ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d", joint_velocity_command_[0],velocity);
 
     if(left_prev_cmd!=velocity)
     {
-        ROS_INFO("Running Motor Ledf CMD");
+        //ROS_INFO("Running Motor Ledf CMD");
         if(auto motor { hat.getMotor (1) }){
-            ROS_INFO("Running Motor Left");
-            motor->setSpeed (50);
+            //ROS_INFO("Running Motor Left");
+            motor->setSpeed (abs(velocity));
 
-            motor->run (AdafruitDCMotor::kForward);
-            ros::Duration(1).sleep();
-
-            motor->run (AdafruitDCMotor::kBackward);
-            ros::Duration(1).sleep();
-
+            if(velocity >= 0){
+                motor->run (AdafruitDCMotor::kForward);
+            } else if (velocity < 0){
+                motor->run (AdafruitDCMotor::kBackward);
+            } 
             // release the motor after use
-            motor->run (AdafruitDCMotor::kRelease);
+            //motor->run (AdafruitDCMotor::kRelease);
         }
 	    //result = hat.writeData(wbuff,2);
 	    //ROS_INFO("Writen successfully result=%d", result);
@@ -102,31 +107,25 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
     }
     
     velocity=(int)angles::to_degrees(joint_velocity_command_[1]);
-	wbuff[0]=velocity;
-    wbuff[1]=velocity >> 8;
+    effort = joint_effort_command_[1];
 	//ROS_INFO("joint_velocity_command_[0]=%.2f velocity=%d  B1=%d B2=%d", joint_velocity_command_[0],velocity,wbuff[0],wbuff[1]);
 
     if(right_prev_cmd!=velocity)
     {
         if(auto motor { hat.getMotor (2) }){
-            motor->setSpeed (50);
+            motor->setSpeed (abs(velocity));
 
-            motor->run (AdafruitDCMotor::kForward);
-            ros::Duration(1).sleep();
-
-            motor->run (AdafruitDCMotor::kBackward);
-            ros::Duration(1).sleep();
-
-            // release the motor after use
-            motor->run (AdafruitDCMotor::kRelease);
+            if(velocity >= 0){
+                motor->run (AdafruitDCMotor::kForward);
+            } else if (velocity < 0){
+                motor->run (AdafruitDCMotor::kBackward);
+            } 
+            //motor->run (AdafruitDCMotor::kRelease);
         }
 	    //result = right_motor.writeData(wbuff,2);
 	    //ROS_INFO("Writen successfully result=%d", result);
 	    right_prev_cmd=velocity;
     }
-
-
-		
 }
 
 
