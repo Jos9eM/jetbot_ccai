@@ -76,8 +76,6 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
     effortJointSaturationInterface.enforceLimits(elapsed_time);
     velocityJointSaturationInterface.enforceLimits(elapsed_time);   
 
-	uint8_t wbuff[2];
-
     int velocity, result, effort;
          
     velocity=(int)angles::to_degrees(joint_velocity_command_[0]);
