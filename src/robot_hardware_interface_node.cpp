@@ -88,16 +88,18 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
     if(left_prev_cmd!=velocity)
     {
         //ROS_INFO("Running Motor Ledf CMD");
-        if(auto motor { hat.getMotor (1) } && abs(velocity) > 0){
+        if(auto motor { hat.getMotor (1) }){
             //ROS_INFO("Running Motor Left");
-            motorSpeed = ((abs(velocity)*95)/150) + 20;
+            motorSpeed = ((abs(velocity)*95)/150) + 19;
             motor->setSpeed (motorSpeed);
 
-            if(velocity >= 0){
+            if(velocity > 0){
                 motor->run (AdafruitDCMotor::kForward);
             } else if (velocity < 0){
                 motor->run (AdafruitDCMotor::kBackward);
-            } 
+            } else {
+                motor->run (AdafruitDCMotor::kRelease);
+            }
             // release the motor after use
             //motor->run (AdafruitDCMotor::kRelease);
         }
@@ -112,15 +114,17 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
 
     if(right_prev_cmd!=velocity)
     {
-        if(auto motor { hat.getMotor (2) } && abs(velocity) > 0){
-            motorSpeed = ((abs(velocity)*95)/150) + 20;
+        if(auto motor { hat.getMotor (2) }){
+            motorSpeed = ((abs(velocity)*95)/150) + 19;
             motor->setSpeed (motorSpeed);
 
-            if(velocity >= 0){
+            if(velocity > 0){
                 motor->run (AdafruitDCMotor::kForward);
             } else if (velocity < 0){
                 motor->run (AdafruitDCMotor::kBackward);
-            } 
+            } else {
+                motor->run (AdafruitDCMotor::kRelease);
+            }
             //motor->run (AdafruitDCMotor::kRelease);
         }
 	    //result = right_motor.writeData(wbuff,2);
