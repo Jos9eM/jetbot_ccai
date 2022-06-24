@@ -77,6 +77,7 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
     velocityJointSaturationInterface.enforceLimits(elapsed_time);   
 
     int velocity, result, effort;
+    int motorSpeed;
          
     velocity=(int)angles::to_degrees(joint_velocity_command_[0]);
     effort = joint_effort_command_[0];
@@ -87,9 +88,10 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
     if(left_prev_cmd!=velocity)
     {
         //ROS_INFO("Running Motor Ledf CMD");
-        if(auto motor { hat.getMotor (1) }){
+        if(auto motor { hat.getMotor (1) } && abs(velocity) > 0){
             //ROS_INFO("Running Motor Left");
-            motor->setSpeed (abs(velocity));
+            motorSpeed = ((abs(velocity)*95)/150) + 20;
+            motor->setSpeed (motorSpeed);
 
             if(velocity >= 0){
                 motor->run (AdafruitDCMotor::kForward);
@@ -110,8 +112,9 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
 
     if(right_prev_cmd!=velocity)
     {
-        if(auto motor { hat.getMotor (2) }){
-            motor->setSpeed (abs(velocity));
+        if(auto motor { hat.getMotor (2) } && abs(velocity) > 0){
+            motorSpeed = ((abs(velocity)*95)/150) + 20;
+            motor->setSpeed (motorSpeed);
 
             if(velocity >= 0){
                 motor->run (AdafruitDCMotor::kForward);
