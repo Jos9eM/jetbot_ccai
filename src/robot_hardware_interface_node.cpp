@@ -91,7 +91,7 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
         if(auto motor { hat.getMotor (1) }){
             //ROS_INFO("Running Motor Left");
             motorSpeed = ((abs(velocity)*95)/150) + 19;
-            motor->setSpeed (motorSpeed);
+            motor->setSpeed (abs(velocity));
 
             if(velocity > 0){
                 motor->run (AdafruitDCMotor::kForward);
@@ -116,7 +116,7 @@ void ROBOTHardwareInterface::write(ros::Duration elapsed_time) {
     {
         if(auto motor { hat.getMotor (2) }){
             motorSpeed = ((abs(velocity)*95)/150) + 19;
-            motor->setSpeed (motorSpeed);
+            motor->setSpeed (abs(velocity));
 
             if(velocity > 0){
                 motor->run (AdafruitDCMotor::kForward);
